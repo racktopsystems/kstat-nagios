@@ -1,1 +1,1 @@
-# kstat-mem-nagios
+# kstat-nagios
