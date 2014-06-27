@@ -153,4 +153,4 @@ def make_nagios_output(label, d):
 
     return "%s|%s" % (label, joined_metrics)
 
-__ALL__ = ["kstat_fetch_metric", "convert_kstat_string_to_map", "make_nagios_output", "TEST"]
+__ALL__ = ["kstat_fetch_metric", "convert_kstat_string_to_map", "make_nagios_output"]
