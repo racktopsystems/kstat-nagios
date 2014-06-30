@@ -20,7 +20,7 @@ KEYS = ["cpu_stat:::anonfree", "cpu_stat:::anonpgin", "cpu_stat:::anonpgout", "c
         "cpu_stat:::fspgout", "cpu_stat:::swap", "cpu_stat:::swapin", "cpu_stat:::swapout", "cpu_stat:::physio",
         "cpu_stat:::rw_rdfails", "cpu_stat:::rw_wrfails", "cpu_stat:::scan", "cpu_stat:::pgin", "cpu_stat:::pgout",
         "cpu_stat:::intr", "cpu_stat:::intrblk", "cpu_stat:::intrthread", "cpu_stat:::inv_swtch", "cpu_stat:::iowait",
-        "cpu_stat:::kernel"]
+        "cpu_stat:::kernel", "cpu_stat:::syscall",]
 
 def test():
 
