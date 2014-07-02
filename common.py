@@ -1,6 +1,7 @@
 __author__ = 'RackTop Systems'
 __copyright__ = 'Copyright (c) 2014, RackTop Systems.'
 
+import re
 import os
 import subprocess
 from subprocess import PIPE
@@ -13,6 +14,12 @@ DEBUG           = False
 REPEAT          = 1 if not "NAGIOS_REPEAT" in os.environ else int(os.environ["NAGIOS_REPEAT"])
 HARD_LIMIT      = 60  # Do not allow more than 60 iterations
 MULTIVARIATES   = ["cpu"]
+SORTED          = {
+    "yes"   : 1,
+    "no"    : 0,
+    "custom": -1
+}
+
 
 class FailedAcquireKstatMetric(Exception):
     pass
@@ -135,7 +142,7 @@ def kstat_fetch_metric(metric_keys):
     return stdout, stderr
 
 
-def make_nagios_output(label, d):
+def make_nagios_output(label, d, sort=None):
     """ Function makes a string suitable for nagios to make sense of the data being passed.
     Mainly, we are taking a dict with key/values and building a key/value string
     where k/v pairs are being separated by `=` and each metric separated by `;` from next one.
@@ -149,8 +156,34 @@ def make_nagios_output(label, d):
     for k,v in d.items():
         atoms.append("%s=%s" % (k, v))
 
-    joined_metrics = "; ".join(atoms)
+    if not sort:  # No sorting if the argument is not specified at all.
+        pass
+    elif sort == -1:  # Custom sort, less likely than just normal sorting.
+        atoms = sorted(atoms, cmp=comparator)  # Fixme: should pass sort function to make_nagios_output
+    elif sort:  # This should be good enough in most cases.
+        print type(sort)
+        print("Default Sorting")
+        atoms = sorted(atoms)
 
+    joined_metrics = "; ".join(atoms)
     return "%s|%s" % (label, joined_metrics)
 
-__ALL__ = ["kstat_fetch_metric", "convert_kstat_string_to_map", "make_nagios_output"]
+
+def comparator(a, b):
+    """ comparator takes two arguments, both being metrics such as `anonfree_0=0`, `anonfree_1=0`
+    and returns a -1 or a 1 depending upon if the number that follows underscore `_` is larger in a or b.
+
+    :param a: string - first of two items to compare; key/value pair joined with a `=`
+    :param b: string - second of two items to compare; key/value pair joined with a `=`
+    :return: int 1 if var a > var b, -1 if var a < var b and 0 if var a == var b
+    """
+    a = re.split("[_=]", a)[-2]
+    b = re.split("[_=]", b)[-2]
+    if a > b:
+        return 1
+    elif a < b:
+        return -1
+    else:
+        return 0
+
+__ALL__ = ["kstat_fetch_metric", "convert_kstat_string_to_map", "make_nagios_output", "SORTED"]

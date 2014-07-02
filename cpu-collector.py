@@ -6,7 +6,7 @@ __copyright__ = 'Copyright (c) 2014, RackTop Systems.'
 
 import os
 import sys
-from common import kstat_fetch_metric, convert_kstat_string_to_map, make_nagios_output
+from common import kstat_fetch_metric, convert_kstat_string_to_map, make_nagios_output, SORTED
 
 # If keys returned will contain metrics for multiple of something, for example
 # multiple CPU cores, where each is iterated with all the same metric points,
@@ -26,7 +26,7 @@ def test():
 
     keys = " ".join(KEYS)
     result, _ = kstat_fetch_metric(keys)
-    x = make_nagios_output(NAME, convert_kstat_string_to_map(result))
+    x = make_nagios_output(NAME, convert_kstat_string_to_map(result), sort=SORTED["yes"])
     print(x)
 
 if __name__ == "__main__":
