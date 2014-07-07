@@ -161,8 +161,6 @@ def make_nagios_output(label, d, sort=None):
     elif sort == -1:  # Custom sort, less likely than just normal sorting.
         atoms = sorted(atoms, cmp=comparator)  # Fixme: should pass sort function to make_nagios_output
     elif sort:  # This should be good enough in most cases.
-        print type(sort)
-        print("Default Sorting")
         atoms = sorted(atoms)
 
     joined_metrics = "; ".join(atoms)
