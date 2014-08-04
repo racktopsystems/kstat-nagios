@@ -152,9 +152,13 @@ def make_nagios_output(label, d, sort=None):
     :return: string - a new string appropriate for nagios to process.
     """
 
+    drop = lambda _: True if _ in ("snaptime", "crtime") else False  # Drop any snaptime and crtime keys
     atoms = []
-    for k,v in d.items():
-        atoms.append("%s=%s" % (k, v))
+    for k, v in d.items():
+        if drop(k):
+            continue
+        else:
+            atoms.append("%s=%s" % (k, v))  # Add key/value mapping as a string of strings joined with `=`.
 
     if not sort:  # No sorting if the argument is not specified at all.
         pass
