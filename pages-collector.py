@@ -13,7 +13,7 @@ from common import kstat_fetch_metric, convert_kstat_string_to_map, make_nagios_
 # set this to true, which will make sure that unique keys are correctly made.
 os.environ["MVALUED"] = "false"
 
-NAME        = "mem-pages"
+NAME        = "system-pages"
 KEYS        = ["unix::system_pages",]
 
 
