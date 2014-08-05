@@ -16,6 +16,8 @@ os.environ["MVALUED"] = "false"
 NAME = "nfs"
 KEYS = ["unix:0:vopstats_nfs3:",
         # "unix:0:vopstats_nfs4:",  # If using NFSv4, uncomment this line
+        "nfs:0:rfsproccnt_v3:",
+        # "nfs:0:rfsproccnt_v4:",  # If using NFSv4, uncomment this line
         ]
 
 def test():
